@@ -16,14 +16,6 @@ app.set('view engine', 'ejs');
 
 // middlewares
 app.use(morgan('dev'));
-app.use(myConnection(mysql, {
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PW || 'root',
-    port: process.env.DB_PORT || 3306,
-    database: process.env.DB_NAME || 'nodejs2'
-}, 'single'));
-app.use(express.urlencoded({extended: false}));
 
 // Initialize DB
 var con = mysql.createConnection({
@@ -41,6 +33,16 @@ con.connect((err)=>{
         });
     });
 });
+
+app.use(myConnection(mysql, {
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PW || 'root',
+    port: process.env.DB_PORT || 3306,
+    database: process.env.DB_NAME || 'nodejs2'
+}, 'single'));
+app.use(express.urlencoded({extended: false}));
+
 
 // routes
 app.use('/', customerRoutes);
