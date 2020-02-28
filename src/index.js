@@ -25,6 +25,23 @@ app.use(myConnection(mysql, {
 }, 'single'));
 app.use(express.urlencoded({extended: false}));
 
+// Initialize DB
+var con = mysql.createConnection({
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PW || 'root'
+});
+con.connect((err)=>{
+    if(err) throw err;
+    con.query("CREATE DATABASE IF NOT EXISTS nodejs2;", (err, result)=>{
+        if(err) throw err;
+        con.query("CREATE TABLE IF NOT EXISTS customer (id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL, address VARCHAR(100) NOT NULL, phone VARCHAR(15));", (err, result)=>{
+            if(err) throw err;
+        });
+    });
+});
+
 // routes
 app.use('/', customerRoutes);
 
