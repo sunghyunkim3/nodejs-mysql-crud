@@ -30,10 +30,6 @@ con.connect((err)=>{
         if(err) throw err;
         con.query("CREATE TABLE IF NOT EXISTS customer (id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL, address VARCHAR(100) NOT NULL, phone VARCHAR(15));", (err, result)=>{
             if(err) throw err;
-        });
-    });
-});
-
 app.use(myConnection(mysql, {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -54,3 +50,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.listen(app.get('port'), () => {
     console.log(`server on port ${app.get('port')}`);
 });
+        });
+    });
+});
+
+
