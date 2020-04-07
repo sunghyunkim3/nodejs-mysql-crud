@@ -18,6 +18,7 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 
 // Initialize DB
+var databaseName = process.env.DB_NAME || 'nodejs2';
 var con = mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 3306,
@@ -26,14 +27,14 @@ var con = mysql.createConnection({
 });
 con.connect((err)=>{
     if(err) throw err;
-    con.query("CREATE DATABASE IF NOT EXISTS nodejs2;", (err, result)=>{
+    con.query("CREATE DATABASE IF NOT EXISTS "+databaseName+";", (err, result)=>{
         if(err) throw err;
 		var con = mysql.createConnection({
 				  host: process.env.DB_HOST || 'localhost',
 				  port: process.env.DB_PORT || 3306,
 				  user: process.env.DB_USER || 'root',
 				  password: process.env.DB_PW || 'root',
-				  database: 'nodejs2'
+				  database: databaseName
 	    });
         con.query("CREATE TABLE IF NOT EXISTS customer (id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL, address VARCHAR(100) NOT NULL, phone VARCHAR(15));", (err, result)=>{
             if(err) throw err;
@@ -42,7 +43,7 @@ app.use(myConnection(mysql, {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PW || 'root',
     port: process.env.DB_PORT || 3306,
-    database: process.env.DB_NAME || 'nodejs2'
+    database: databaseName
 }, 'single'));
 app.use(express.urlencoded({extended: false}));
 
