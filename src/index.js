@@ -44,7 +44,7 @@ app.use(myConnection(mysql, {
     password: process.env.DB_PW || 'root',
     port: process.env.DB_PORT || 3306,
     database: databaseName
-}, 'single'));
+}, 'pool'));
 app.use(express.urlencoded({extended: false}));
 
 
